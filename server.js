@@ -79,18 +79,19 @@ app.post('/add-recipe', async (req, res) => {
 });
 
 // View Single Recipe API
-// app.get('/recipe/:title', async (req, res) => {
-//     try {
-//         const recipe = await Recipe.findById(req.params.title);
-//         if (!recipe) {
-//             return res.status(404).json({ message: "Recipe not found" });
-//         }
-//         res.json(recipe);
-//     } catch (err) {
-//         console.log(err);
-//         res.status(500).json({ message: "Error fetching recipe" });
-//     }
-// });
+app.get('/recipe/:title', async (req, res) => {
+    try {
+        const recipe = await Recipe.findOne({ title: new RegExp(`^${req.params.title}$`, 'i') });
+        if (!recipe) {
+            return res.status(404).json({ message: "Recipe not found" });
+        }
+        res.json(recipe);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "Error fetching recipe" });
+    }
+});
+
 
 // View All Recipes API
 app.get('/recipes', async (req, res) => {
