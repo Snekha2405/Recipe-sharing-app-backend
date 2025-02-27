@@ -2,6 +2,9 @@ const express=require("express")
 const app=express()
 const port=3000
 const mongoose=require("mongoose")
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 app.listen(port,(err)=>{
     if(err){
@@ -9,7 +12,10 @@ app.listen(port,(err)=>{
     }
     console.log("Server running on port"+port);
 })
-mongoose.connect("mongodb+srv://snekha:snekha@snekha.dtlfd.mongodb.net/db001?retryWrites=true&w=majority&appName=snekha").then(
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(
     ()=>console.log("connected")
 ).catch((err)=>
     console.log(err)
